@@ -1,0 +1,33 @@
+# docker compose
+# 파일 경로에서 docker-compose -p tle-api up -d
+version: '3.0'
+
+services:
+  tle_db:
+    image: postgres:16-alpine
+    container_name: tle-db
+    hostname: tle-db
+    networks:
+      - tle_network
+    # 서비스 배포 및 실행 옵션
+    environment:
+      TZ: Asia/Seoul
+      POSTGRES_USER: tle
+      POSTGRES_PASSWORD: tle
+    # 컨테이너 상태 체크
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - tle_db_volume:/var/lib/postgresql/data
+      - ./init-database/tle.sql:/docker-entrypoint-initdb.d/tle.sql
+
+# 도커 볼륨
+volumes:
+  tle_db_volume:
+
+networks:
+  tle_network:
+    driver: bridge

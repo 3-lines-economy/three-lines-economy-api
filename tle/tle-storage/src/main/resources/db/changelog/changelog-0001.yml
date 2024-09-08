@@ -1,0 +1,96 @@
+databaseChangeLog:
+  - changeSet:
+      id: add users table
+      author: HwangonJang
+      changes:
+        - sql:
+            sql: "DO $$
+            BEGIN
+              DROP TYPE IF EXISTS user_role;
+              CREATE TYPE user_role AS ENUM (
+                  'ROLE_ADMIN',
+                  'ROLE_USER',
+                  'ROLE_ANONYMOUS'
+              );
+            END$$;"
+            endDelimiter: $$
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_users
+              - column:
+                  name: email
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nickname
+                  type: VARCHAR(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: refresh_token
+                  type: VARCHAR(512)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: total_point
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    defaultValue: 0
+              - column:
+                  name: profile_image_url
+                  type: VARCHAR(2048)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: role
+                  type: user_role
+                  constraints:
+                    nullable: true
+              - column:
+                  name: social_id
+                  type: VARCHAR(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: social_info
+                  type: VARCHAR(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_deleted
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+                    defaultValue: false
+              # Audit logging
+              - column:
+                  name: created_date_time
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_date_time
+                  type: DATETIME
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: users
+            indexName: idx_users
+            unique: true
+            columns:
+              - column:
+                  name: email
+              - column:
+                  name: nickname

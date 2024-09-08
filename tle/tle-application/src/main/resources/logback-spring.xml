@@ -1,0 +1,16 @@
+<configuration>
+
+    <springProperty scope="context" name="applicationName" source="spring.application.name"
+                    defaultValue="tle-api"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern><![CDATA[
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%property{applicationName},%X{traceId},%X{spanId}] [%15.15t] %-40.40logger{39} : %msg%n]]></pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
