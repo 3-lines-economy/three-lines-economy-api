@@ -7,7 +7,7 @@ tasks.getByName("jar") {
 }
 
 dependencies {
-    val liquibaseVersion = "4.19.1"
+//    val liquibaseVersion = "4.19.1"
 
 //    compileOnly(project(":tle:tle-domain"))
 
@@ -16,7 +16,7 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-    runtimeOnly("org.liquibase", "liquibase-core", liquibaseVersion)
+//    runtimeOnly("org.liquibase", "liquibase-core", liquibaseVersion)
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
