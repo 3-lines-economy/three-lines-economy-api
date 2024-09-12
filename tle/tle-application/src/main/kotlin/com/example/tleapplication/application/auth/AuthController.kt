@@ -26,13 +26,6 @@ class AuthController(
     private val traceIdResolver: TraceIdResolver,
     private val authService: AuthService
 ) {
-//    @GetMapping("/callback")
-//    @ResponseStatus(HttpStatus.OK)
-//    fun callback(@RequestParam("code") code: String) {
-//        val accessToken = kakaoLoginService.getAccessToken(code)
-//        val userInfo = kakaoLoginService.getUserInfo(accessToken)
-//    }
-
     @Operation(
         summary = "카카오 로그인",
         description = "카카오 로그인 API",
