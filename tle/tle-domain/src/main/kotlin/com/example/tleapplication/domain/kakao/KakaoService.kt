@@ -14,7 +14,7 @@ class KakaoService(
     private val KAUTH_TOKEN_URL_HOST = "https://kauth.kakao.com"
     private val KAUTH_USER_URL_HOST = "https://kapi.kakao.com"
 
-    fun getKakaoAccessToken(code: String): String? {
+    fun getAccessToken(code: String): String? {
         val kakaoToken = WebClient.create(KAUTH_TOKEN_URL_HOST).post()
             .uri { uriBuilder ->
                 uriBuilder

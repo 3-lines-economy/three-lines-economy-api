@@ -17,7 +17,7 @@ class TokenAuthService(
             val authority = SimpleGrantedAuthority(role)
 
             SecurityContextHolder.getContext().authentication =
-                UsernamePasswordAuthenticationToken(claims["id"], "", listOf(authority))
+                UsernamePasswordAuthenticationToken((claims["id"] as Double).toLong(), "", listOf(authority))
         }
     }
 }

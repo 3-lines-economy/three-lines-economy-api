@@ -32,6 +32,7 @@ class AuthController(
 //    }
 
     @Operation(
+        summary = "카카오 로그인",
         description = "카카오 로그인 API",
         responses = [
             ApiResponse(responseCode = "200", description = "로그인 성공"),

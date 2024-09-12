@@ -13,20 +13,21 @@ class AuthService(
     private val tokenIssuer: TokenIssuer
 ) {
     fun signIn(code: String): UserToken {
-        val kakaoAccessToken = kakaoService.getKakaoAccessToken(code)
-        val userInfo = kakaoService.getUserInfo(kakaoAccessToken)
+        val accessToken = kakaoService.getAccessToken(code)
+        val userInfo = kakaoService.getUserInfo(accessToken)
 
-        var kakaoUser = userRepository.findUserById(userInfo!!.id)
-        if (kakaoUser == null) {
-            kakaoUser = User(
+        // 회원가입 & 로그인 처리
+        var user = userRepository.findUserById(userInfo!!.id)
+        if (user == null) {
+            user = User(
                 userInfo.id,
                 userInfo.kakaoAccount.profile.nickname,
                 userInfo.kakaoAccount.profile.profileImageUrl,
                 UserRoleEnum.ROLE_USER)
-            kakaoUser = userRepository.save(kakaoUser)
+            user = userRepository.save(user)
         }
 
-        val userToken = tokenIssuer.issueUserTokens(kakaoUser.id)
+        val userToken = tokenIssuer.issueUserTokens(user.id)
         return userToken
     }
 }

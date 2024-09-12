@@ -32,7 +32,8 @@ class UserArgumentResolver(
         val claims: Claims =
             claimExtractor.extractAllClaims(token) ?: throw ClaimNotFoundException()
 
-        val userId = claims["id"] as Long
+        val userId = (claims["id"] as Double).toLong()
+
         return AuthInfo(userId)
     }
 }
