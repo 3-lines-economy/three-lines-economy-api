@@ -4,6 +4,8 @@ import com.example.tleapplication.domain.auth.AuthService
 import com.example.tleapplication.domain.auth.UserToken
 import com.example.tleapplication.support.logging.TraceIdResolver
 import com.example.tleapplication.support.response.TleApiResponse
+import com.example.tleapplication.support.security.Auth
+import com.example.tleapplication.support.security.AuthInfo
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
@@ -49,6 +51,27 @@ class AuthController(
             traceIdResolver.getTraceId(),
             HttpStatus.OK,
             userToken
+        )
+    }
+
+    @Operation(
+        summary = "카카오 로그아웃",
+        description = "카카오 로그아웃 API",
+        responses = [
+            ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @PostMapping("/sign-out")
+    @ResponseStatus(HttpStatus.OK)
+    fun signOut(@Auth authInfo: AuthInfo): TleApiResponse<Unit?> {
+        authService.signOut(authInfo.userId)
+        return TleApiResponse.success(
+            traceIdResolver.getTraceId(),
+            HttpStatus.OK,
+            null
         )
     }
 }

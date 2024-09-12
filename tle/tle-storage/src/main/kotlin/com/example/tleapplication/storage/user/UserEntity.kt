@@ -22,6 +22,9 @@ class UserEntity(
     @field:Column(length = 64, name = "nick_name", unique = true)
     var nickName: String,
 
+    @field:Column(length = 512, name = "kakao_access_token")
+    var kakaoAccessToken: String?,
+
     @field:Column(length = 512, name = "refresh_token")
     var refreshToken: String?,
 
@@ -35,11 +38,12 @@ class UserEntity(
         fun from(user: User): UserEntity {
             return UserEntity(
                 id = user.id,
-                nickName = user.nickName,
-                profileImage = user.profileImage,
-                role = user.role,
                 email = user.email,
-                refreshToken = user.refreshToken
+                nickName = user.nickName,
+                kakaoAccessToken = user.kakaoAccessToken,
+                refreshToken = user.refreshToken,
+                profileImage = user.profileImage,
+                role = user.role
             )
         }
     }
@@ -50,6 +54,7 @@ class UserEntity(
             nickName = this.nickName,
             profileImage = this.profileImage,
             role = this.role,
+            kakaoAccessToken = this.kakaoAccessToken,
             email = this.email,
             refreshToken = this.refreshToken
         )

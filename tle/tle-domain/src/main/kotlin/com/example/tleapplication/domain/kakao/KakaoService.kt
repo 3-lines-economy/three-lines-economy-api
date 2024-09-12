@@ -50,4 +50,19 @@ class KakaoService(
 
         return userInfo
     }
+
+    fun logout(accessToken: String?) {
+        val userInfo = WebClient.create(KAUTH_USER_URL_HOST).post()
+            .uri { uriBuilder ->
+                uriBuilder
+                    .scheme("https")
+                    .path("/v1/user/logout")
+                    .build(true)
+            }
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+            .retrieve()
+            .bodyToMono(Void::class.java)
+            .block()
+    }
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 interface UserRepository {
     fun save(user: User): User
     fun findUserById(id: Long): User?
-    fun updateRefreshToken(refreshToken: String, id: Long)
+    fun update(user: User): User
 }
