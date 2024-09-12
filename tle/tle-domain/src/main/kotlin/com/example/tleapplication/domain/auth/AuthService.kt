@@ -28,6 +28,8 @@ class AuthService(
         }
 
         val userToken = tokenIssuer.issueUserTokens(user.id)
+        userRepository.updateRefreshToken(userToken.refreshToken, user.id)
+
         return userToken
     }
 }
