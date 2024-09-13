@@ -16,7 +16,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(
-    name = "scraps",
+    name = "scrap",
     indexes = [Index(name = "UK_scrap_id", columnList = "scrap_id", unique = true)]
 )
 class ScrapEntity(

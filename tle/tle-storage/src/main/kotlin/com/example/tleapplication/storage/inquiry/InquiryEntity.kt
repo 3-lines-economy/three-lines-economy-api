@@ -1,7 +1,5 @@
-package com.example.tleapplication.storage.bookmark
+package com.example.tleapplication.storage.inquiry
 
-import com.example.tleapplication.storage.common.BaseEntity
-import com.example.tleapplication.storage.news.NewsEntity
 import com.example.tleapplication.storage.user.UserEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -14,23 +12,26 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 
+
 @Entity
 @Table(
-    name = "bookmark",
-    indexes = [Index(name = "UK_bookmark_id", columnList = "bookmarks_id", unique = true)]
+    name = "inquiry",
+    indexes = [Index(name = "UK_inquiry_id", columnList = "inquiry_id", unique = true)]
 )
-class BookmarkEntity(
+class InquiryEntity(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    @field:Column(name = "bookmark_id")
+    @field:Column(name = "inquiry_id")
     val id: Long,
+
+    @field:Column(name = "content")
+    var content: String,
+
+    @field:Column(name = "files")
+    val files: MutableList<String>,
 
     @field:ManyToOne(fetch = FetchType.LAZY)
     @field:JoinColumn(name = "user_id")
     val user: UserEntity,
-
-    @field:ManyToOne(fetch = FetchType.LAZY)
-    @field:JoinColumn(name = "news_id")
-    val news: NewsEntity,
-) : BaseEntity() {
+) {
 }
