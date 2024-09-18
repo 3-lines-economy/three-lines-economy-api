@@ -3,7 +3,13 @@ package com.example.tleapplication.storage.user
 import com.example.tleapplication.domain.user.User
 import com.example.tleapplication.storage.common.BaseEntity
 import com.example.tleapplication.domain.user.UserRoleEnum
-import jakarta.persistence.*
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.EnumType
+import jakarta.persistence.Enumerated
+import jakarta.persistence.Id
+import jakarta.persistence.Index
+import jakarta.persistence.Table
 
 @Entity
 @Table(

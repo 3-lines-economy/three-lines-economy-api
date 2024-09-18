@@ -21,11 +21,11 @@ class UserRepositoryImpl(
         return userEntity?.toDomain()
     }
 
-    override fun update(user: User): User {
-        val userEntity = UserEntity.from(user)
-        val result = userJpaRepository.save(userEntity)
-        return result.toDomain()
-    }
+//    override fun update(user: User): User {
+//        val userEntity = UserEntity.from(user)
+//        val result = userJpaRepository.save(userEntity)
+//        return result.toDomain()
+//    }
 }
 
 interface UserJpaRepository : JpaRepository<UserEntity, Long>
