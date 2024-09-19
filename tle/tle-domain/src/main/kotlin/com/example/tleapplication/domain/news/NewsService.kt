@@ -2,6 +2,7 @@ package com.example.tleapplication.domain.news
 
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class NewsService(
@@ -23,6 +24,13 @@ class NewsService(
         } else {
             newsRepository.findAllNews(pageable)
         }
+    }
+
+    fun getNewsByDate(date: LocalDate?, page: Int): List<News> {
+        val pageable = PageRequest.of(page - 1, PAGE_SIZE)
+        val targetDate = date ?: LocalDate.now()
+
+        return newsRepository.findNewsByDate(targetDate, pageable)
     }
 
     fun findNewsById(id: Long): News? {

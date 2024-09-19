@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 import kotlin.jvm.optionals.getOrNull
 
 @Repository
@@ -28,6 +29,11 @@ class NewsRepositoryImpl(
             .stream().map { it.toDomain() }.toList()
     }
 
+    override fun findNewsByDate(date: LocalDate, pageable: Pageable): List<News> {
+        return newsJpaRepository.findByPublishedAt(date, pageable).content
+            .stream().map { it.toDomain() }.toList()
+    }
+
     override fun findNewsById(id: Long): News? {
         val newsEntity = newsJpaRepository.findById(id).getOrNull()
         return newsEntity?.toDomain()
@@ -36,4 +42,5 @@ class NewsRepositoryImpl(
 
 interface NewsJpaRepository: JpaRepository<NewsEntity, Long> {
     fun findByCategory(category: Category?, pageable: Pageable): Page<NewsEntity>
+    fun findByPublishedAt(publishedAt: LocalDate, pageable: Pageable): Page<NewsEntity>
 }

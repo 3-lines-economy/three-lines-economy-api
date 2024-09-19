@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @RestController
 @RequestMapping("/news")
@@ -61,6 +63,37 @@ class NewsController(
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<NewsListResponse> {
         val newsList = newsService.getNewsByCategory(category, page)
+        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        return TleApiResponse.success(
+            traceIdResolver.getTraceId(),
+            HttpStatus.OK,
+            NewsListResponse(newsResponseList)
+        )
+    }
+
+    @Operation(
+        summary = "날짜 기준 뉴스 조회",
+        description = "뉴스 조회 API(오늘 or 특정 날짜)",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 조회 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping("/by-date")
+    @ResponseStatus(HttpStatus.OK)
+    fun getNewsByDate(
+        @Parameter(name = "date", description = "날짜(yyyy.MM.dd)", required = false)
+        @RequestParam(required = false) date: String?,
+        @Parameter(name = "page", description = "페이지 번호", required = true)
+        @RequestParam(defaultValue = "1") page: Int
+    ): TleApiResponse<NewsListResponse> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val localDate = date?.let {
+            LocalDate.parse(it, formatter)
+        }
+        val newsList = newsService.getNewsByDate(localDate, page)
         val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
         return TleApiResponse.success(
             traceIdResolver.getTraceId(),
