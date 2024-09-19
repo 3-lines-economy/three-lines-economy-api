@@ -125,4 +125,31 @@ class NewsController(
             NewsListResponse(newsResponseList)
         )
     }
+
+    @Operation(
+        summary = "뉴스 검색",
+        description = "뉴스 검색 API(title, what, why, how 기준)",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 검색 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    fun searchNews(
+        @Parameter(name = "keyword", description = "검색어", required = true)
+        @RequestParam keyword: String,
+        @Parameter(name = "page", description = "페이지 번호", required = true)
+        @RequestParam(defaultValue = "1") page: Int
+    ): TleApiResponse<NewsListResponse>  {
+        val newsList = newsService.searchNewsByKeyword(keyword, page)
+        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        return TleApiResponse.success(
+            traceIdResolver.getTraceId(),
+            HttpStatus.OK,
+            NewsListResponse(newsResponseList)
+        )
+    }
 }

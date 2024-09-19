@@ -10,5 +10,6 @@ interface NewsRepository {
     fun findNewsByCategory(category: Category, pageable: Pageable): List<News>
     fun findAllNews(pageable: Pageable): List<News>
     fun findNewsByDate(date: LocalDate, pageable: Pageable): List<News>
+    fun searchNewsByKeyword(keyword: String, pageable: Pageable): List<News>
     fun findNewsById(id: Long): News?
 }
