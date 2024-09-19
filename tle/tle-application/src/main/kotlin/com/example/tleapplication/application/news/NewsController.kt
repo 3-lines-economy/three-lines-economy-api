@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -45,6 +46,29 @@ class NewsController(
     }
 
     @Operation(
+        summary = "뉴스 조회",
+        description = "뉴스 조회 API",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 조회 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping("/{news-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun getNews(
+        @PathVariable("news-id") id: Long
+    ): TleApiResponse<NewsResponse> {
+        val news = newsService.getNews(id)
+        return TleApiResponse.success(
+            traceIdResolver.getTraceId(),
+            HttpStatus.OK,
+            NewsResponse.from(news)
+        )
+    }
+
+    @Operation(
         summary = "카테고리 기준 뉴스 조회",
         description = "뉴스 조회 API(전체 or 카테고리)",
         responses = [
@@ -54,9 +78,9 @@ class NewsController(
             )),
         ],
     )
-    @GetMapping
+    @GetMapping("by-category")
     @ResponseStatus(HttpStatus.OK)
-    fun getNews(
+    fun getNewsByCategory(
         @Parameter(name = "category", description = "카테고리", required = false)
         @RequestParam(required = false) category: Category?,
         @Parameter(name = "page", description = "페이지 번호", required = true)

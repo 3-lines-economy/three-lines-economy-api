@@ -1,5 +1,6 @@
 package com.example.tleapplication.domain.news
 
+import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -14,6 +15,10 @@ class NewsService(
 
     fun registerNews(news: News) {
         newsRepository.save(news)
+    }
+
+    fun getNews(id: Long): News {
+        return findNewsById(id) ?: throw NewsNotFoundException()
     }
 
     fun getNewsByCategory(category: Category?, page: Int): List<News> {
