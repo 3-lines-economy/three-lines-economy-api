@@ -6,6 +6,10 @@ import org.springframework.stereotype.Service
 class NewsService(
     private val newsRepository: NewsRepository
 ) {
+    fun registerNews(news: News) {
+        newsRepository.save(news)
+    }
+
     fun findNewsById(id: Long): News? {
         return newsRepository.findNewsById(id)
     }

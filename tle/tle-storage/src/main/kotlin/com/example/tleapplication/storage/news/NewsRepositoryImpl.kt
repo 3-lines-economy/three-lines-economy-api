@@ -10,6 +10,11 @@ import kotlin.jvm.optionals.getOrNull
 class NewsRepositoryImpl(
     private val newsJpaRepository: NewsJpaRepository
 ) : NewsRepository {
+    override fun save(news: News) {
+        val newsEntity = NewsEntity.from(news)
+        newsJpaRepository.save(newsEntity)
+    }
+
     override fun findNewsById(id: Long): News? {
         val newsEntity = newsJpaRepository.findById(id).getOrNull()
         return newsEntity?.toDomain()
