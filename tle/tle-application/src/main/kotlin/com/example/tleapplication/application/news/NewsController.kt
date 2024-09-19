@@ -1,15 +1,22 @@
 package com.example.tleapplication.application.news
 
+import com.example.tleapplication.domain.news.Category
 import com.example.tleapplication.domain.news.NewsService
 import com.example.tleapplication.support.logging.TraceIdResolver
 import com.example.tleapplication.support.response.TleApiResponse
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -32,6 +39,33 @@ class NewsController(
             traceIdResolver.getTraceId(),
             HttpStatus.CREATED,
             null
+        )
+    }
+
+    @Operation(
+        summary = "카테고리 기준 뉴스 조회",
+        description = "뉴스 조회 API(전체 or 카테고리)",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 조회 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun getNews(
+        @Parameter(name = "category", description = "카테고리", required = false)
+        @RequestParam(required = false) category: Category?,
+        @Parameter(name = "page", description = "페이지 번호", required = true)
+        @RequestParam(defaultValue = "1") page: Int
+    ): TleApiResponse<NewsListResponse> {
+        val newsList = newsService.getNewsByCategory(category, page)
+        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        return TleApiResponse.success(
+            traceIdResolver.getTraceId(),
+            HttpStatus.OK,
+            NewsListResponse(newsResponseList)
         )
     }
 }
