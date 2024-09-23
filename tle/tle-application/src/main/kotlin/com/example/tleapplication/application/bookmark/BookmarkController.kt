@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -49,6 +51,30 @@ class BookmarkController(
             traceIdResolver.getTraceId(),
             HttpStatus.CREATED,
             BookmarkResponse.from(newBookmark)
+        )
+    }
+
+    @Operation(
+        summary = "뉴스 북마크 삭제",
+        description = "뉴스 북마크 삭제 API",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 북마크 삭제 성공"),
+            ApiResponse(responseCode = "404", description = "뉴스 북마크를 찾을 수 없음"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @DeleteMapping("/{bookmark-id}")
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteBookmark(
+        @PathVariable("bookmark-id") id: Long
+    ): TleApiResponse<Unit?>   {
+        bookmarkService.deleteBookmark(id)
+        return TleApiResponse.success(
+            traceIdResolver.getTraceId(),
+            HttpStatus.OK,
+            null
         )
     }
 }

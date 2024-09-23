@@ -4,6 +4,7 @@ import com.example.tleapplication.domain.bookmark.Bookmark
 import com.example.tleapplication.domain.bookmark.BookmarkRepository
 import com.example.tleapplication.domain.news.News
 import com.example.tleapplication.domain.user.User
+import com.example.tleapplication.support.exception.bookmark.BookmarkNotFoundException
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -22,6 +23,11 @@ class BookmarkRepositoryImpl(
         val bookmarkEntity = BookmarkEntity.of(bookmark, user, news)
         val result = bookmarkJpaRepository.save(bookmarkEntity)
         return result.toDomain()
+    }
+
+    override fun delete(id: Long) {
+        val bookmarkEntity = bookmarkJpaRepository.findById(id).orElseThrow { BookmarkNotFoundException() }
+        bookmarkJpaRepository.delete(bookmarkEntity)
     }
 }
 

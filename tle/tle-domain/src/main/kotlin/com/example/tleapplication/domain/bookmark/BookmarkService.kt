@@ -27,4 +27,8 @@ class BookmarkService(
         val bookmark = bookmarkRepository.save(bookmark, user as User, news as News)
         return bookmark
     }
+
+    fun deleteBookmark(id: Long) {
+        bookmarkRepository.delete(id)
+    }
 }
