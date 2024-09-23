@@ -2,7 +2,7 @@ package com.example.tleapplication.domain.news
 
 import java.time.LocalDate
 
-class News(
+data class News(
     var title: String,
     var category: Category,
     var link: String,

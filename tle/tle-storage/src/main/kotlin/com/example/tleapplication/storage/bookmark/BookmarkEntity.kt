@@ -1,5 +1,8 @@
 package com.example.tleapplication.storage.bookmark
 
+import com.example.tleapplication.domain.bookmark.Bookmark
+import com.example.tleapplication.domain.news.News
+import com.example.tleapplication.domain.user.User
 import com.example.tleapplication.storage.common.BaseEntity
 import com.example.tleapplication.storage.news.NewsEntity
 import com.example.tleapplication.storage.user.UserEntity
@@ -23,7 +26,7 @@ class BookmarkEntity(
     @field:Id
     @field:GeneratedValue(strategy = GenerationType.IDENTITY)
     @field:Column(name = "bookmark_id")
-    val id: Long,
+    val id: Long?,
 
     @field:ManyToOne(fetch = FetchType.LAZY)
     @field:JoinColumn(name = "user_id")
@@ -33,4 +36,21 @@ class BookmarkEntity(
     @field:JoinColumn(name = "news_id")
     val news: NewsEntity,
 ) : BaseEntity() {
+    companion object {
+        fun of(bookmark: Bookmark, user: User, news: News): BookmarkEntity {
+            return BookmarkEntity(
+                id = bookmark.id,
+                user = UserEntity.from(user),
+                news = NewsEntity.from(news)
+            )
+        }
+    }
+
+    fun toDomain(): Bookmark {
+        return Bookmark(
+            id = this.id,
+            userId = this.user.id,
+            newsId = this.news.id!!
+        )
+    }
 }
