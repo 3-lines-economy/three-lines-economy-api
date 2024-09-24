@@ -28,6 +28,8 @@ dependencies {
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
+
+    implementation("org.springframework:spring-webflux:6.1.12")
 }
 
 dependencyManagement {
