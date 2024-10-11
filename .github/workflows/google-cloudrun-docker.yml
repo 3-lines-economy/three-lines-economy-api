@@ -77,7 +77,7 @@ jobs:
 
       - name: Decode Dockerfile from secret and save it
         run: |
-          echo "$DOCKERFILE" | base64 --decode > Dockerfile
+          echo "$DOCKERFILE" > Dockerfile
         env:
           DOCKERFILE: ${{ secrets.DOCKERFILE }}
 
