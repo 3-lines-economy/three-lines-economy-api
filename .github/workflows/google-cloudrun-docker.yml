@@ -2,7 +2,7 @@
 # and deploy it on Cloud Run when a commit is pushed to the "develop"
 # branch.
 #
-# To configure this workflow: 
+# To configure this workflow:
 #
 # 1. Enable the following Google Cloud APIs:
 #
@@ -93,6 +93,7 @@ jobs:
 
       - name: 'Build and Push Container'
         run: |-
+          gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia-northeast3-docker.pkg.dev
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
