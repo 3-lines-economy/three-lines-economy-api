@@ -36,7 +36,7 @@ on:
 env:
   PROJECT_ID: 'tle-project-438303' # TODO: update to your Google Cloud project ID
   REGION: 'asia-northeast3' # TODO: update to your region
-  SERVICE: 'tle-server' # TODO: update to your service name
+  SERVICE: 'tle' # TODO: update to your service name
   WORKLOAD_IDENTITY_PROVIDER: 'projects/1054716025289/locations/global/workloadIdentityPools/tle-github-actions/providers/github-actions' # TODO: update to your workload identity provider
 
 jobs:
