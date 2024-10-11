@@ -96,7 +96,7 @@ jobs:
           gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://asia-northeast3-docker.pkg.dev
           DOCKER_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
           docker build --tag "${DOCKER_TAG}" .
-          docker push "${DOCKER_TAG}"
+          docker push "asia-northeast3-docker.pkg.dev/tle-project-438303/tle:${DOCKER_TAG}"
       - name: 'Deploy to Cloud Run'
 
         # END - Docker auth and build
