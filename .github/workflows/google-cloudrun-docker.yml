@@ -75,6 +75,12 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew :tle:tle-application:bootJar
 
+      - name: Decode Dockerfile from secret and save it
+        run: |
+          echo "$DOCKERFILE" | base64 --decode > Dockerfile
+        env:
+          DOCKERFILE: ${{ secrets.DOCKERFILE }}
+
       # BEGIN - Docker auth and build
       #
       # If you already have a container image, you can omit these steps.
