@@ -20,30 +20,30 @@ import java.time.LocalDate
     indexes = [Index(name = "UK_news_id", columnList = "news_id", unique = true)]
 )
 class NewsEntity(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    @field:Column(name = "news_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "news_id")
     val id: Long?,
 
-    @field:Column(length = 512, name = "title")
+    @Column(length = 512, name = "title")
     var title: String,
 
-    @field:Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     var category: Category,
 
-    @field:Column(length = 2048, name = "link")
+    @Column(length = 2048, name = "link")
     var link: String,
 
-    @field:Column(name = "what")
+    @Column(name = "what")
     var what: String,
 
-    @field:Column(name = "why")
+    @Column(name = "why")
     var why: String,
 
-    @field:Column(name = "how")
+    @Column(name = "how")
     var how: String,
 
-    @field:Column(name = "published_at")
+    @Column(name = "published_at")
     var publishedAt: LocalDate
 ) : BaseEntity() {
     companion object {

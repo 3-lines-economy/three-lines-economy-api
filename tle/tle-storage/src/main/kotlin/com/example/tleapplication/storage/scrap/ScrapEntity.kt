@@ -25,47 +25,47 @@ import org.hibernate.annotations.SQLRestriction
 )
 @SQLRestriction("deleted_at is NULL")
 class ScrapEntity(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    @field:Column(name = "scrap_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "scrap_id")
     val id: Long?,
 
-    @field:Column(length = 512, name = "title")
+    @Column(length = 512, name = "title")
     var title: String,
 
-    @field:Column(name = "summary")
+    @Column(name = "summary")
     var summary: String,
 
-    @field:Column(name = "what")
+    @Column(name = "what")
     var what: String,
 
-    @field:Column(name = "why")
+    @Column(name = "why")
     var why: String,
 
-    @field:Column(name = "how")
+    @Column(name = "how")
     var how: String,
 
-    @field:Column(name = "digitize")
+    @Column(name = "digitize")
     var digitize: String,
 
-    @field:Column(name = "insight")
+    @Column(name = "insight")
     var insight: String,
 
-    @field:Column(name = "addition")
+    @Column(name = "addition")
     var addition: String,
 
-    @field:Column(name = "application")
+    @Column(name = "application")
     var application: String,
 
-    @field:Column(length = 2048, name = "link")
+    @Column(length = 2048, name = "link")
     var link: String,
 
-    @field:ManyToOne(fetch = FetchType.LAZY)
-    @field:JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     val user: UserEntity,
 
-    @field:ManyToOne(fetch = FetchType.LAZY)
-    @field:JoinColumn(name = "news_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "news_id")
     val news: NewsEntity,
 ) : BaseEntity() {
     companion object {

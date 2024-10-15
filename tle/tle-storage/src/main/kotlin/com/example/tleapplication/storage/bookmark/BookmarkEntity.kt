@@ -23,17 +23,17 @@ import jakarta.persistence.Table
     indexes = [Index(name = "UK_bookmark_id", columnList = "bookmarks_id", unique = true)]
 )
 class BookmarkEntity(
-    @field:Id
-    @field:GeneratedValue(strategy = GenerationType.IDENTITY)
-    @field:Column(name = "bookmark_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bookmark_id")
     val id: Long?,
 
-    @field:ManyToOne(fetch = FetchType.LAZY)
-    @field:JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     val user: UserEntity,
 
-    @field:ManyToOne(fetch = FetchType.LAZY)
-    @field:JoinColumn(name = "news_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "news_id")
     val news: NewsEntity,
 ) : BaseEntity() {
     companion object {
