@@ -51,18 +51,18 @@ data class CreateScrapRequest(
 ) {
     fun toDomain(userId: Long): Scrap {
         return Scrap(
-            this.title,
-            this.summary,
-            this.what,
-            this.why,
-            this.how,
-            this.digitize,
-            this.insight,
-            this.addition,
-            this.application,
-            this.link,
-            userId,
-            this.newsId
+            title = this.title,
+            summary = this.summary,
+            what = this.what,
+            why = this.why,
+            how = this.how,
+            digitize = this.digitize,
+            insight = this.insight,
+            addition = this.addition,
+            application = this.application,
+            link = this.link,
+            userId = userId,
+            newsId = this.newsId
         )
     }
 }

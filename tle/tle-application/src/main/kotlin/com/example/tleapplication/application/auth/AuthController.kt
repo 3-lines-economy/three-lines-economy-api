@@ -45,9 +45,9 @@ class AuthController(
     fun signIn(@Valid @RequestBody authRequest: AuthRequest): TleApiResponse<UserToken> {
         val userToken = authService.signIn(authRequest.code)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            userToken
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = userToken
         )
     }
 
@@ -66,9 +66,9 @@ class AuthController(
     fun signOut(@Auth authInfo: AuthInfo): TleApiResponse<String> {
         authService.signOut(authInfo.userId)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            SUCCESS
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = SUCCESS
         )
     }
 

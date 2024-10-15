@@ -52,9 +52,9 @@ class ScrapController(
         val scrap = request.toDomain(authInfo.userId)
         val newScrap = scrapService.createScrap(scrap)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.CREATED,
-            ScrapResponse.from(newScrap)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.CREATED,
+            body = ScrapResponse.from(newScrap)
         )
     }
 
@@ -76,9 +76,9 @@ class ScrapController(
     ): TleApiResponse<ScrapResponse> {
         val scrap = scrapService.getScrap(id)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            ScrapResponse.from(scrap)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = ScrapResponse.from(scrap)
         )
     }
 
@@ -101,9 +101,9 @@ class ScrapController(
     ): TleApiResponse<ScrapResponse> {
         val scrap = scrapService.updateScrap(request.toDomain(id))
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            ScrapResponse.from(scrap)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = ScrapResponse.from(scrap)
         )
     }
 
@@ -125,9 +125,9 @@ class ScrapController(
     ): TleApiResponse<String>  {
         scrapService.deleteScrap(id)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            SUCCESS
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = SUCCESS
         )
     }
 }

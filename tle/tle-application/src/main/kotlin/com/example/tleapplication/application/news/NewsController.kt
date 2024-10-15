@@ -43,9 +43,9 @@ class NewsController(
         val news = request.toDomain()
         newsService.registerNews(news)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.CREATED,
-            SUCCESS
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.CREATED,
+            body = SUCCESS
         )
     }
 
@@ -66,9 +66,9 @@ class NewsController(
     ): TleApiResponse<NewsResponse> {
         val news = newsService.getNews(id)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            NewsResponse.from(news)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = NewsResponse.from(news)
         )
     }
 
@@ -93,9 +93,9 @@ class NewsController(
         val newsList = newsService.getNewsByCategory(category, page)
         val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            NewsListResponse(newsResponseList)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = NewsListResponse(newsResponseList)
         )
     }
 
@@ -124,9 +124,9 @@ class NewsController(
         val newsList = newsService.getNewsByDate(localDate, page)
         val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            NewsListResponse(newsResponseList)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = NewsListResponse(newsResponseList)
         )
     }
 
@@ -151,9 +151,9 @@ class NewsController(
         val newsList = newsService.searchNewsByKeyword(keyword, page)
         val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            NewsListResponse(newsResponseList)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = NewsListResponse(newsResponseList)
         )
     }
 }

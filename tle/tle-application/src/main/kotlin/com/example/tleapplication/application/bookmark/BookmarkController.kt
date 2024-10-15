@@ -52,9 +52,9 @@ class BookmarkController(
         val bookmark = Bookmark(authInfo.userId, newsId)
         val newBookmark = bookmarkService.registerBookmark(bookmark)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.CREATED,
-            BookmarkResponse.from(newBookmark)
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.CREATED,
+            body = BookmarkResponse.from(newBookmark)
         )
     }
 
@@ -76,9 +76,9 @@ class BookmarkController(
     ): TleApiResponse<String>   {
         bookmarkService.deleteBookmark(id)
         return TleApiResponse.success(
-            traceIdResolver.getTraceId(),
-            HttpStatus.OK,
-            SUCCESS
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = SUCCESS
         )
     }
 }
