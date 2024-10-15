@@ -29,6 +29,10 @@ class ScrapController(
     private val scrapService: ScrapService,
     private val traceIdResolver: TraceIdResolver
 ) {
+    companion object {
+        const val SUCCESS = "OK"
+    }
+
     @Operation(
         summary = "경신스 작성",
         description = "경신스 작성 API",
@@ -118,12 +122,12 @@ class ScrapController(
     @ResponseStatus(HttpStatus.OK)
     fun deleteScrap(
         @PathVariable("scrap-id") id: Long
-    ): TleApiResponse<Unit?>  {
+    ): TleApiResponse<String>  {
         scrapService.deleteScrap(id)
         return TleApiResponse.success(
             traceIdResolver.getTraceId(),
             HttpStatus.OK,
-            null
+            SUCCESS
         )
     }
 }

@@ -26,6 +26,10 @@ class AuthController(
     private val traceIdResolver: TraceIdResolver,
     private val authService: AuthService
 ) {
+    companion object {
+        const val SUCCESS = "OK"
+    }
+
     @Operation(
         summary = "카카오 로그인",
         description = "카카오 로그인 API",
@@ -59,12 +63,12 @@ class AuthController(
     )
     @PostMapping("/sign-out")
     @ResponseStatus(HttpStatus.OK)
-    fun signOut(@Auth authInfo: AuthInfo): TleApiResponse<Unit?> {
+    fun signOut(@Auth authInfo: AuthInfo): TleApiResponse<String> {
         authService.signOut(authInfo.userId)
         return TleApiResponse.success(
             traceIdResolver.getTraceId(),
             HttpStatus.OK,
-            null
+            SUCCESS
         )
     }
 

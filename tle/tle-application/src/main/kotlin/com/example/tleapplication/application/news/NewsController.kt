@@ -30,18 +30,22 @@ class NewsController(
     private val newsService: NewsService,
     private val traceIdResolver: TraceIdResolver
 ) {
+    companion object {
+        const val SUCCESS = "OK"
+    }
+
     @Operation(hidden = true)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun registerNews(
         @Valid @RequestBody request: CreateNewsRequest
-    ): TleApiResponse<Unit?> {
+    ): TleApiResponse<String> {
         val news = request.toDomain()
         newsService.registerNews(news)
         return TleApiResponse.success(
             traceIdResolver.getTraceId(),
             HttpStatus.CREATED,
-            null
+            SUCCESS
         )
     }
 

@@ -27,6 +27,10 @@ class BookmarkController(
     private val bookmarkService: BookmarkService,
     private val traceIdResolver: TraceIdResolver
 ) {
+    companion object {
+        const val SUCCESS = "OK"
+    }
+
     @Operation(
         summary = "뉴스 북마크 등록",
         description = "뉴스 북마크 등록 API",
@@ -69,12 +73,12 @@ class BookmarkController(
     @ResponseStatus(HttpStatus.OK)
     fun deleteBookmark(
         @PathVariable("bookmark-id") id: Long
-    ): TleApiResponse<Unit?>   {
+    ): TleApiResponse<String>   {
         bookmarkService.deleteBookmark(id)
         return TleApiResponse.success(
             traceIdResolver.getTraceId(),
             HttpStatus.OK,
-            null
+            SUCCESS
         )
     }
 }
