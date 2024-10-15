@@ -3,6 +3,7 @@ package com.example.tleapplication.domain.news
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
 @Service
@@ -13,6 +14,7 @@ class NewsService(
         const val PAGE_SIZE = 10
     }
 
+    @Transactional
     fun registerNews(news: News) {
         newsRepository.save(news)
     }

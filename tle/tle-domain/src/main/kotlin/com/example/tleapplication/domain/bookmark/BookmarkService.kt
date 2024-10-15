@@ -8,6 +8,7 @@ import com.example.tleapplication.support.exception.bookmark.BookmarkAlreadyExis
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import com.example.tleapplication.support.exception.user.UserNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BookmarkService(
@@ -15,6 +16,7 @@ class BookmarkService(
     private val userService: UserService,
     private val newsService: NewsService
 ) {
+    @Transactional
     fun registerBookmark(bookmark: Bookmark): Bookmark {
         val existedBookmark = bookmarkRepository.findBookmarkByUserAndNews(bookmark.userId, bookmark.newsId)
         if (existedBookmark != null) {
@@ -28,6 +30,7 @@ class BookmarkService(
         return bookmark
     }
 
+    @Transactional
     fun deleteBookmark(id: Long) {
         bookmarkRepository.delete(id)
     }

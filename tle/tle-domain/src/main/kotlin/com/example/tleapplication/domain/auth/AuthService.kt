@@ -6,6 +6,7 @@ import com.example.tleapplication.domain.user.UserRoleEnum
 import com.example.tleapplication.domain.user.UserService
 import com.example.tleapplication.support.exception.user.UserNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AuthService(
@@ -13,6 +14,7 @@ class AuthService(
     private val userService: UserService,
     private val tokenIssuer: TokenIssuer
 ) {
+    @Transactional
     fun signIn(code: String): UserToken {
         val kakaoAccessToken = kakaoService.getAccessToken(code)
         val userInfo = kakaoService.getUserInfo(kakaoAccessToken)
@@ -36,6 +38,7 @@ class AuthService(
         return userToken
     }
 
+    @Transactional
     fun signOut(id: Long) {
         val user = userService.findUserById(id) ?: throw UserNotFoundException()
 
