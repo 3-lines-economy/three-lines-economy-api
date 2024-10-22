@@ -118,10 +118,10 @@ class NewsController(
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<NewsListResponse> {
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
-        val localDate = date?.let {
-            LocalDate.parse(it, formatter)
+        val formattedDate = date?.let {
+            LocalDate.parse(it, formatter).atStartOfDay()
         }
-        val newsList = newsService.getNewsByDate(localDate, page)
+        val newsList = newsService.getNewsByDate(formattedDate, page)
         val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),

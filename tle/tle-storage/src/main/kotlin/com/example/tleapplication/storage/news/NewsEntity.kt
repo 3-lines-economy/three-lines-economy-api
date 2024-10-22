@@ -12,7 +12,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Index
 import jakarta.persistence.Table
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(
@@ -27,6 +27,9 @@ class NewsEntity(
 
     @Column(length = 512, name = "title")
     var title: String,
+
+    @Column(name = "content")
+    var content: String,
 
     @Enumerated(EnumType.STRING)
     var category: Category,
@@ -44,13 +47,14 @@ class NewsEntity(
     var how: String,
 
     @Column(name = "published_at")
-    var publishedAt: LocalDate
+    var publishedAt: LocalDateTime
 ) : BaseEntity() {
     companion object {
         fun from(news: News): NewsEntity {
             return NewsEntity(
                 id = news.id,
                 title = news.title,
+                content = news.content,
                 category = news.category,
                 link = news.link,
                 what = news.what,
@@ -65,6 +69,7 @@ class NewsEntity(
         return News(
             id = this.id,
             title = this.title,
+            content = this.content,
             category = this.category,
             link = this.link,
             what = this.what,

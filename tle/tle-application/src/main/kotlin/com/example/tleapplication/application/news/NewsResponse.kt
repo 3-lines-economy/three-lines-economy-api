@@ -26,7 +26,7 @@ data class NewsResponse(
                 what = news.what,
                 why = news.why,
                 how = news.how,
-                publishedAt = news.publishedAt
+                publishedAt = news.publishedAt.toLocalDate()
             )
         }
     }

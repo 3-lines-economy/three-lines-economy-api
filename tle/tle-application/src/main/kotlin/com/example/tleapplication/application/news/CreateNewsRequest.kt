@@ -4,11 +4,14 @@ import com.example.tleapplication.domain.news.Category
 import com.example.tleapplication.domain.news.News
 import com.fasterxml.jackson.annotation.JsonFormat
 import jakarta.validation.constraints.NotNull
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class CreateNewsRequest(
     @field:NotNull
     val title: String,
+
+    @field:NotNull
+    val content: String,
 
     @field:NotNull
     val category: Category,
@@ -26,12 +29,13 @@ data class CreateNewsRequest(
     val how: String,
 
     @field:NotNull
-    @JsonFormat(pattern = "yyyy.MM.dd")
-    val publishedAt: LocalDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    val publishedAt: LocalDateTime
 ) {
     fun toDomain(): News {
         return News(
             title = this.title,
+            content = this.content,
             category = this.category,
             link = this.link,
             what = this.what,

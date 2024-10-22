@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlin.jvm.optionals.getOrNull
 
 @Repository
@@ -31,7 +31,7 @@ class NewsRepositoryImpl(
             .stream().map { it.toDomain() }.toList()
     }
 
-    override fun findNewsByDate(date: LocalDate, pageable: Pageable): List<News> {
+    override fun findNewsByDate(date: LocalDateTime, pageable: Pageable): List<News> {
         return newsJpaRepository.findByPublishedAt(date, pageable).content
             .stream().map { it.toDomain() }.toList()
     }
@@ -49,7 +49,7 @@ class NewsRepositoryImpl(
 
 interface NewsJpaRepository: JpaRepository<NewsEntity, Long> {
     fun findByCategory(category: Category?, pageable: Pageable): Page<NewsEntity>
-    fun findByPublishedAt(publishedAt: LocalDate, pageable: Pageable): Page<NewsEntity>
+    fun findByPublishedAt(publishedAt: LocalDateTime, pageable: Pageable): Page<NewsEntity>
     @Query("""
         SELECT n FROM NewsEntity n
         WHERE LOWER(n.title) LIKE LOWER(CONCAT('%', :keyword, '%'))

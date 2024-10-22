@@ -20,7 +20,7 @@ import jakarta.persistence.Table
 @Entity
 @Table(
     name = "bookmark",
-    indexes = [Index(name = "UK_bookmark_id", columnList = "bookmarks_id", unique = true)]
+    indexes = [Index(name = "UK_bookmark_id", columnList = "bookmark_id", unique = true)]
 )
 class BookmarkEntity(
     @Id
