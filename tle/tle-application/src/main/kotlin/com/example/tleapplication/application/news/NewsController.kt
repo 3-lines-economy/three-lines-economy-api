@@ -49,6 +49,21 @@ class NewsController(
         )
     }
 
+    @Operation(hidden = true)
+    @PostMapping("/bulk")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun registerBulkNews(
+        @Valid @RequestBody request: BulkCreateNewsRequest
+    ): TleApiResponse<String> {
+        val bulkNews = request.newsList.stream().map { it.toDomain() }.toList()
+        newsService.registerBulkNews(bulkNews)
+        return TleApiResponse.success(
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.CREATED,
+            body = SUCCESS
+        )
+    }
+
     @Operation(
         summary = "뉴스 조회",
         description = "뉴스 조회 API",

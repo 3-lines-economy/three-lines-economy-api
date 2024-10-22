@@ -19,6 +19,11 @@ class NewsService(
         newsRepository.save(news)
     }
 
+    @Transactional
+    fun registerBulkNews(bulkNews: List<News>) {
+        newsRepository.saveAll(bulkNews)
+    }
+
     fun getNews(id: Long): News {
         return findNewsById(id) ?: throw NewsNotFoundException()
     }

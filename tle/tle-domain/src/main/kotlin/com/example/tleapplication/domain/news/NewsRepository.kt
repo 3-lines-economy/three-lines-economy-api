@@ -8,6 +8,7 @@ import java.time.LocalDateTime
 @Repository
 interface NewsRepository {
     fun save(news: News)
+    fun saveAll(bulkNews: List<News>)
     fun findNewsByCategory(category: Category, pageable: Pageable): List<News>
     fun findAllNews(pageable: Pageable): List<News>
     fun findNewsByDate(date: LocalDateTime, pageable: Pageable): List<News>

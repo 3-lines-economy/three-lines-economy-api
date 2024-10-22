@@ -21,6 +21,12 @@ class NewsRepositoryImpl(
         newsJpaRepository.save(newsEntity)
     }
 
+    override fun saveAll(bulkNews: List<News>) {
+        val bulkNewsEntity = bulkNews.stream()
+            .map { NewsEntity.from(it) }.toList()
+        newsJpaRepository.saveAll(bulkNewsEntity)
+    }
+
     override fun findNewsByCategory(category: Category, pageable: Pageable): List<News> {
         return newsJpaRepository.findByCategory(category, pageable).content
             .stream().map { it.toDomain() }.toList()
