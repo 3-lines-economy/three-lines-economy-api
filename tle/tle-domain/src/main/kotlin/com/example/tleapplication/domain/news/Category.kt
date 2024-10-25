@@ -6,5 +6,6 @@ enum class Category {
     SOCIETY,
     LIFESTYLE_CULTURE,
     IT_SCIENCE,
-    WORLD
+    WORLD,
+    ETC
 }
