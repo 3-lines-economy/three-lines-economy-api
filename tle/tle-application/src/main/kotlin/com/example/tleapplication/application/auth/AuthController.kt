@@ -13,11 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/auth")
@@ -26,9 +22,6 @@ class AuthController(
     private val traceIdResolver: TraceIdResolver,
     private val authService: AuthService
 ) {
-    companion object {
-        const val SUCCESS = "OK"
-    }
 
     @Operation(
         summary = "카카오 로그인",
@@ -68,7 +61,7 @@ class AuthController(
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = SUCCESS
+            body = TleApiResponse.SUCCESS,
         )
     }
 
