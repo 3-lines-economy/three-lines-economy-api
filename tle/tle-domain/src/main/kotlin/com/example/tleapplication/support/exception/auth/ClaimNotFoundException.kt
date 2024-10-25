@@ -1,3 +1,3 @@
-package com.example.tleapplication.support.exception
+package com.example.tleapplication.support.exception.auth
 
 class ClaimNotFoundException : RuntimeException("인증 실패: 토큰에 claim이 없습니다.")

@@ -1,7 +1,7 @@
 package com.example.tleapplication.support.security
 
 import com.example.tleapplication.domain.auth.ClaimExtractor
-import com.example.tleapplication.support.exception.ClaimNotFoundException
+import com.example.tleapplication.support.exception.auth.ClaimNotFoundException
 import io.jsonwebtoken.Claims
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.core.MethodParameter
