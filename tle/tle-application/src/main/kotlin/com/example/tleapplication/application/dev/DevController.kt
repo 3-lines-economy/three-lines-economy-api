@@ -20,7 +20,7 @@ class DevController(
 ) {
     @Operation(
         summary = "ping",
-        description = "핑 테스트 API",
+        description = "핑 테스트 API.",
         responses = [
             ApiResponse(responseCode = "200", description = "OK"),
             ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(Content(schema = Schema(hidden = true)))),
