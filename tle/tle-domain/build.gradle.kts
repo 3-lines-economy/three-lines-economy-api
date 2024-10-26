@@ -7,7 +7,7 @@ tasks.getByName("jar") {
 }
 
 dependencies {
-    implementation(project(":tle:tle-storage"))
+//    implementation(project(":tle:tle-storage"))
 
     api("org.springframework.boot:spring-boot-starter-data-jpa")
     api("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
@@ -28,6 +28,8 @@ dependencies {
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
+
+    implementation("org.springframework:spring-webflux:6.1.12")
 }
 
 dependencyManagement {
