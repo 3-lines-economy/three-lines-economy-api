@@ -3,15 +3,7 @@ package com.example.tleapplication.storage.news
 import com.example.tleapplication.domain.news.Category
 import com.example.tleapplication.domain.news.News
 import com.example.tleapplication.storage.common.BaseEntity
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.Index
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.LocalDateTime
 
 @Entity
@@ -25,10 +17,10 @@ class NewsEntity(
     @Column(name = "news_id")
     val id: Long?,
 
-    @Column(length = 512, name = "title")
+    @Column(length = 2048, name = "title", columnDefinition = "TEXT")
     var title: String,
 
-    @Column(name = "content")
+    @Column(length = 2048, name = "content", columnDefinition = "TEXT")
     var content: String,
 
     @Enumerated(EnumType.STRING)
