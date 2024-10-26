@@ -9,7 +9,7 @@ tasks.getByName("jar") {
 dependencies {
 //    val liquibaseVersion = "4.19.1"
 
-//    compileOnly(project(":tle:tle-domain"))
+    implementation(project(":tle:tle-domain"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")

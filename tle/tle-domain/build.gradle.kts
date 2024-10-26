@@ -7,7 +7,7 @@ tasks.getByName("jar") {
 }
 
 dependencies {
-    implementation(project(":tle:tle-storage"))
+//    implementation(project(":tle:tle-storage"))
 
     api("org.springframework.boot:spring-boot-starter-data-jpa")
     api("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")

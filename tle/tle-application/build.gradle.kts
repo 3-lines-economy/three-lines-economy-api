@@ -10,6 +10,7 @@ dependencies {
     val springDocVersion = "2.0.4"
 
     implementation(project(":tle:tle-domain"))
+    implementation(project(":tle:tle-storage"))
 
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-validation")
