@@ -24,7 +24,6 @@ class NewsController(
     private val traceIdResolver: TraceIdResolver
 ) {
 
-    @Operation(hidden = true)
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun registerNews(
@@ -39,7 +38,6 @@ class NewsController(
         )
     }
 
-    @Operation(hidden = true)
     @PostMapping("/bulk")
     @ResponseStatus(HttpStatus.CREATED)
     fun registerBulkNews(
