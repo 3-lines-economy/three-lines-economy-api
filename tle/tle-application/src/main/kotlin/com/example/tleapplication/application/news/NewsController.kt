@@ -122,7 +122,7 @@ class NewsController(
     ): TleApiResponse<NewsListResponse> {
         val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
         val formattedDate = date?.let {
-            LocalDate.parse(it, formatter).atStartOfDay()
+            LocalDate.parse(it, formatter)
         }
         val newsList = newsService.getNewsByDate(formattedDate, page)
         val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()

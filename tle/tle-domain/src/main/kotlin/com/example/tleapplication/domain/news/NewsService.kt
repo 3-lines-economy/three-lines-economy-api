@@ -4,7 +4,7 @@ import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.LocalDateTime
+import java.time.LocalDate
 
 @Service
 class NewsService(
@@ -38,9 +38,9 @@ class NewsService(
         }
     }
 
-    fun getNewsByDate(date: LocalDateTime?, page: Int): List<News> {
+    fun getNewsByDate(date: LocalDate?, page: Int): List<News> {
         val pageable = PageRequest.of(page - 1, PAGE_SIZE)
-        val targetDate = date ?: LocalDateTime.now()
+        val targetDate = date ?: LocalDate.now()
 
         return newsRepository.findNewsByDate(targetDate, pageable)
     }
