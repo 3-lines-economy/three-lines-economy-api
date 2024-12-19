@@ -5,6 +5,8 @@ import com.example.tleapplication.domain.bookmark.BookmarkRepository
 import com.example.tleapplication.domain.news.News
 import com.example.tleapplication.domain.user.User
 import com.example.tleapplication.support.exception.bookmark.BookmarkNotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -29,9 +31,17 @@ class BookmarkRepositoryImpl(
         val bookmarkEntity = bookmarkJpaRepository.findById(id).orElseThrow { BookmarkNotFoundException() }
         bookmarkJpaRepository.delete(bookmarkEntity)
     }
+
+    override fun findAllBookmarks(userId: Long, pageable: Pageable): List<Bookmark> {
+        val bookmarkEntities = bookmarkJpaRepository.findAllByUserId(userId, pageable)
+
+        return bookmarkEntities.map { it.toDomain() }.toList()
+    }
 }
 
 interface BookmarkJpaRepository: JpaRepository<BookmarkEntity, Long> {
     @Query("SELECT b FROM BookmarkEntity b WHERE b.user.id = :userId AND b.news.id = :newsId")
     fun findByUserIdAndNewsId(@Param("userId") userId: Long, @Param("newsId") newsId: Long): BookmarkEntity?
+
+    fun findAllByUserId(userId: Long, pageable: Pageable): Page<BookmarkEntity>
 }

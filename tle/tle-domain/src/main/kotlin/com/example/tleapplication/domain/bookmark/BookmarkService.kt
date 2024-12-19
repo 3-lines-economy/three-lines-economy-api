@@ -7,6 +7,7 @@ import com.example.tleapplication.domain.user.UserService
 import com.example.tleapplication.support.exception.bookmark.BookmarkAlreadyExistsException
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import com.example.tleapplication.support.exception.user.UserNotFoundException
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,13 +19,13 @@ class BookmarkService(
 ) {
     @Transactional
     fun registerBookmark(bookmark: Bookmark): Bookmark {
-        val existedBookmark = bookmarkRepository.findBookmarkByUserAndNews(bookmark.userId, bookmark.newsId)
+        val existedBookmark = bookmarkRepository.findBookmarkByUserAndNews(bookmark.user.id, bookmark.news.id!!)
         if (existedBookmark != null) {
             throw BookmarkAlreadyExistsException()
         }
 
-        val user = userService.findUserById(bookmark.userId) ?: UserNotFoundException()
-        val news = newsService.findNewsById(bookmark.newsId) ?: NewsNotFoundException()
+        val user = userService.findUserById(bookmark.user.id) ?: UserNotFoundException()
+        val news = newsService.findNewsById(bookmark.news.id!!) ?: NewsNotFoundException()
 
         val bookmark = bookmarkRepository.save(bookmark, user as User, news as News)
         return bookmark
@@ -33,5 +34,11 @@ class BookmarkService(
     @Transactional
     fun deleteBookmark(id: Long) {
         bookmarkRepository.delete(id)
+    }
+
+    fun getAllBookmarks(userId: Long, page: Int): List<Bookmark> {
+        val pageable = PageRequest.of(page - 1, NewsService.PAGE_SIZE)
+
+        return bookmarkRepository.findAllBookmarks(userId, pageable)
     }
 }
