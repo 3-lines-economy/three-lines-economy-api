@@ -159,4 +159,29 @@ class NewsController(
             body = NewsListResponse(newsResponseList)
         )
     }
+
+    @Operation(
+        summary = "뉴스 전체 조회",
+        description = "뉴스 전체 조회 API",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 조회 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllNews(
+        @Parameter(name = "page", description = "페이지 번호", required = true)
+        @RequestParam(defaultValue = "1") page: Int
+    ): TleApiResponse<NewsListResponse> {
+        val newsList = newsService.getAllNews(page)
+        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        return TleApiResponse.success(
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = NewsListResponse(newsResponseList)
+        )
+    }
 }

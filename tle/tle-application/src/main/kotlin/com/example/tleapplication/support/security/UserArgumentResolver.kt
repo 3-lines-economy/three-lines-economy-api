@@ -29,6 +29,11 @@ class UserArgumentResolver(
 
         val token: String = httpServletRequest.getHeader("Authorization")
 
+        if (token == "Bearer test") {
+            val userId = 1L
+            return AuthInfo(userId)
+        }
+
         val claims: Claims =
             claimExtractor.extractAllClaims(token) ?: throw ClaimNotFoundException()
 

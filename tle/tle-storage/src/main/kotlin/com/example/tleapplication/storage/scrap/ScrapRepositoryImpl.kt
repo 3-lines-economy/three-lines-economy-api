@@ -5,6 +5,8 @@ import com.example.tleapplication.domain.scrap.Scrap
 import com.example.tleapplication.domain.scrap.ScrapRepository
 import com.example.tleapplication.domain.user.User
 import com.example.tleapplication.support.exception.scrap.ScrapNotFoundException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -52,9 +54,16 @@ class ScrapRepositoryImpl(
         scrapEntity.deletedAt = LocalDateTime.now()
         scrapJpaRepository.save(scrapEntity)
     }
+
+    override fun findAllScraps(userId: Long, pageable: Pageable): List<Scrap> {
+        val scrapEntities = scrapJpaRepository.findAllByUserId(userId, pageable)
+        return scrapEntities.map { it.toDomain() }.toList()
+    }
 }
 
 interface ScrapJpaRepository : JpaRepository<ScrapEntity, Long> {
     @Query("SELECT s FROM ScrapEntity s WHERE s.user.id = :userId AND s.news.id = :newsId")
     fun findByUserIdAndNewsId(@Param("userId") userId: Long, @Param("newsId") newsId: Long): ScrapEntity?
+
+    fun findAllByUserId(userId: Long, pageable: Pageable): Page<ScrapEntity>
 }

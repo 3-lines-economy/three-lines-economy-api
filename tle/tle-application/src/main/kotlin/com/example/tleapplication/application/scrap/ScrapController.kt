@@ -6,6 +6,7 @@ import com.example.tleapplication.support.response.TleApiResponse
 import com.example.tleapplication.support.security.Auth
 import com.example.tleapplication.support.security.AuthInfo
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -117,6 +118,34 @@ class ScrapController(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
             body = TleApiResponse.SUCCESS,
+        )
+    }
+
+    @Operation(
+        summary = "경신스 전체 조회",
+        description = "경신스 조회 API",
+        responses = [
+            ApiResponse(responseCode = "200", description = "경신스 조회 성공"),
+            ApiResponse(responseCode = "404", description = "경신스를 찾을 수 없음"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllScraps(
+        @Auth authInfo: AuthInfo,
+        @Parameter(name = "page", description = "페이지 번호", required = true)
+        @RequestParam(defaultValue = "1") page: Int
+    ): TleApiResponse<ScrapListResponse> {
+        val scraps = scrapService.getAllScraps(authInfo.userId, page)
+        val scrapResponseList = scraps.map { ScrapResponse.from(it) }
+
+        return TleApiResponse.success(
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = ScrapListResponse(scrapResponseList)
         )
     }
 }

@@ -45,6 +45,12 @@ class NewsService(
         return newsRepository.findNewsByDate(targetDate, pageable)
     }
 
+    fun getAllNews(page: Int): List<News> {
+        val pageable = PageRequest.of(page - 1, PAGE_SIZE)
+
+        return newsRepository.findAllNews(pageable)
+    }
+
     fun searchNewsByKeyword(keyword: String, page: Int): List<News> {
         val pageable = PageRequest.of(page - 1, PAGE_SIZE)
         return newsRepository.searchNewsByKeyword(keyword, pageable)

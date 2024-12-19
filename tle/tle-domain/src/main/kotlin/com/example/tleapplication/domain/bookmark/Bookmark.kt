@@ -1,8 +1,10 @@
 package com.example.tleapplication.domain.bookmark
 
+import com.example.tleapplication.domain.news.News
+import com.example.tleapplication.domain.user.User
+
 data class Bookmark(
-    val userId: Long,
-    val newsId: Long,
+    val user: User,
+    val news: News,
     val id: Long? = null
-) {
-}
+)
