@@ -23,7 +23,16 @@ class NewsController(
     private val newsService: NewsService,
     private val traceIdResolver: TraceIdResolver
 ) {
-
+    @Operation(
+        summary = "뉴스 개별 등록",
+        description = "뉴스 개별 등록 API",
+        responses = [
+            ApiResponse(responseCode = "201", description = "뉴스 등록 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun registerNews(
@@ -38,6 +47,16 @@ class NewsController(
         )
     }
 
+    @Operation(
+        summary = "뉴스 벌크 등록",
+        description = "뉴스 벌크 등록 API",
+        responses = [
+            ApiResponse(responseCode = "201", description = "뉴스 등록 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
     @PostMapping("/bulk")
     @ResponseStatus(HttpStatus.CREATED)
     fun registerBulkNews(
