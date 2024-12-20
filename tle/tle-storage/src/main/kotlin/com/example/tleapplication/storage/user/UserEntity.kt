@@ -23,7 +23,7 @@ class UserEntity(
     val id: Long,
 
     @Column(length = 64, name = "email", unique = true)
-    var email: String?,
+    var email: String,
 
     @Column(length = 64, name = "nick_name", unique = true)
     var nickName: String,

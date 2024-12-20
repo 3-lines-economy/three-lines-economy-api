@@ -24,6 +24,7 @@ class AuthService(
         if (user == null) {
             user = User(
                 userInfo.id,
+                userInfo.kakaoAccount.email,
                 userInfo.kakaoAccount.profile.nickname,
                 userInfo.kakaoAccount.profile.profileImageUrl,
                 UserRoleEnum.ROLE_USER,
