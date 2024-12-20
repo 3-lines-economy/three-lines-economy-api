@@ -55,9 +55,9 @@ class ScrapRepositoryImpl(
         scrapJpaRepository.save(scrapEntity)
     }
 
-    override fun findAllScraps(userId: Long, pageable: Pageable): List<Scrap> {
-        val scrapEntities = scrapJpaRepository.findAllByUserId(userId, pageable)
-        return scrapEntities.map { it.toDomain() }.toList()
+    override fun findAllScraps(userId: Long, pageable: Pageable): Page<Scrap> {
+        val scrapPage = scrapJpaRepository.findAllByUserId(userId, pageable).map { it.toDomain() }
+        return scrapPage
     }
 }
 

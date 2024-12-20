@@ -7,6 +7,7 @@ import com.example.tleapplication.domain.user.UserService
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import com.example.tleapplication.support.exception.scrap.ScrapAlreadyExistsException
 import com.example.tleapplication.support.exception.user.UserNotFoundException
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -36,7 +37,7 @@ class ScrapService(
         return scrap
     }
 
-    fun getAllScraps(userId: Long, page: Int): List<Scrap> {
+    fun getAllScraps(userId: Long, page: Int): Page<Scrap> {
         val pageable = PageRequest.of(page - 1, NewsService.PAGE_SIZE)
 
         return scrapRepository.findAllScraps(userId, pageable)
