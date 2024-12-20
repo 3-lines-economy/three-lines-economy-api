@@ -23,7 +23,7 @@ class UserEntity(
     val id: Long,
 
     @Column(length = 64, name = "email", unique = true)
-    var email: String?,
+    var email: String,
 
     @Column(length = 64, name = "nick_name", unique = true)
     var nickName: String,
@@ -45,7 +45,7 @@ class UserEntity(
             return UserEntity(
                 id = user.id,
                 email = user.email,
-                nickName = user.nickName,
+                nickName = user.nickname,
                 kakaoAccessToken = user.kakaoAccessToken,
                 refreshToken = user.refreshToken,
                 profileImage = user.profileImage,
@@ -57,7 +57,7 @@ class UserEntity(
     fun toDomain(): User {
         return User(
             id = this.id,
-            nickName = this.nickName,
+            nickname = this.nickName,
             profileImage = this.profileImage,
             role = this.role,
             kakaoAccessToken = this.kakaoAccessToken,

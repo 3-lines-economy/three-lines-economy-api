@@ -27,24 +27,20 @@ class NewsRepositoryImpl(
         newsJpaRepository.saveAll(bulkNewsEntity)
     }
 
-    override fun findNewsByCategory(category: Category, pageable: Pageable): List<News> {
-        return newsJpaRepository.findByCategory(category, pageable).content
-            .stream().map { it.toDomain() }.toList()
+    override fun findNewsByCategory(category: Category, pageable: Pageable): Page<News> {
+        return newsJpaRepository.findByCategory(category, pageable).map { it.toDomain() }
     }
 
-    override fun findAllNews(pageable: Pageable): List<News> {
-        return newsJpaRepository.findAll(pageable).content
-            .stream().map { it.toDomain() }.toList()
+    override fun findAllNews(pageable: Pageable): Page<News> {
+        return newsJpaRepository.findAll(pageable).map { it.toDomain() }
     }
 
-    override fun findNewsByDate(date: LocalDate, pageable: Pageable): List<News> {
-        return newsJpaRepository.findByPublishedAt(date, pageable).content
-            .stream().map { it.toDomain() }.toList()
+    override fun findNewsByDate(date: LocalDate, pageable: Pageable): Page<News> {
+        return newsJpaRepository.findByPublishedAt(date, pageable).map { it.toDomain() }
     }
 
-    override fun searchNewsByKeyword(keyword: String, pageable: Pageable): List<News> {
-        return newsJpaRepository.searchByKeyword(keyword, pageable).content
-            .stream().map { it.toDomain() }.toList()
+    override fun searchNewsByKeyword(keyword: String, pageable: Pageable): Page<News> {
+        return newsJpaRepository.searchByKeyword(keyword, pageable).map { it.toDomain() }
     }
 
     override fun findNewsById(id: Long): News? {

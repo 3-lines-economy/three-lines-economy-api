@@ -23,7 +23,16 @@ class NewsController(
     private val newsService: NewsService,
     private val traceIdResolver: TraceIdResolver
 ) {
-
+    @Operation(
+        summary = "뉴스 개별 등록",
+        description = "뉴스 개별 등록 API",
+        responses = [
+            ApiResponse(responseCode = "201", description = "뉴스 등록 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun registerNews(
@@ -38,6 +47,16 @@ class NewsController(
         )
     }
 
+    @Operation(
+        summary = "뉴스 벌크 등록",
+        description = "뉴스 벌크 등록 API",
+        responses = [
+            ApiResponse(responseCode = "201", description = "뉴스 등록 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
     @PostMapping("/bulk")
     @ResponseStatus(HttpStatus.CREATED)
     fun registerBulkNews(
@@ -77,7 +96,7 @@ class NewsController(
 
     @Operation(
         summary = "카테고리 기준 뉴스 조회",
-        description = "뉴스 조회 API(전체 or 카테고리)",
+        description = "카테고리 기준 뉴스 조회 API",
         responses = [
             ApiResponse(responseCode = "200", description = "뉴스 조회 성공"),
             ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
@@ -88,17 +107,16 @@ class NewsController(
     @GetMapping("by-category")
     @ResponseStatus(HttpStatus.OK)
     fun getNewsByCategory(
-        @Parameter(name = "category", description = "카테고리", required = false)
-        @RequestParam(required = false) category: Category?,
+        @Parameter(name = "category", description = "카테고리", required = true)
+        @RequestParam(required = true) category: Category,
         @Parameter(name = "page", description = "페이지 번호", required = true)
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<NewsListResponse> {
-        val newsList = newsService.getNewsByCategory(category, page)
-        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        val newsPage = newsService.getNewsByCategory(category, page)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = NewsListResponse(newsResponseList)
+            body = NewsListResponse.from(newsPage)
         )
     }
 
@@ -124,12 +142,11 @@ class NewsController(
         val formattedDate = date?.let {
             LocalDate.parse(it, formatter)
         }
-        val newsList = newsService.getNewsByDate(formattedDate, page)
-        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        val newsPage= newsService.getNewsByDate(formattedDate, page)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = NewsListResponse(newsResponseList)
+            body = NewsListResponse.from(newsPage)
         )
     }
 
@@ -151,12 +168,11 @@ class NewsController(
         @Parameter(name = "page", description = "페이지 번호", required = true)
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<NewsListResponse>  {
-        val newsList = newsService.searchNewsByKeyword(keyword, page)
-        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        val newsPage = newsService.searchNewsByKeyword(keyword, page)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = NewsListResponse(newsResponseList)
+            body = NewsListResponse.from(newsPage)
         )
     }
 
@@ -176,12 +192,11 @@ class NewsController(
         @Parameter(name = "page", description = "페이지 번호", required = true)
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<NewsListResponse> {
-        val newsList = newsService.getAllNews(page)
-        val newsResponseList = newsList.stream().map { NewsResponse.from(it) }.toList()
+        val newsPage = newsService.getAllNews(page)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = NewsListResponse(newsResponseList)
+            body = NewsListResponse.from(newsPage)
         )
     }
 }

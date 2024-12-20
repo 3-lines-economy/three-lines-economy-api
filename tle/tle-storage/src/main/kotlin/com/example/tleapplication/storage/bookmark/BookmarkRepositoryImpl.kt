@@ -32,10 +32,9 @@ class BookmarkRepositoryImpl(
         bookmarkJpaRepository.delete(bookmarkEntity)
     }
 
-    override fun findAllBookmarks(userId: Long, pageable: Pageable): List<Bookmark> {
-        val bookmarkEntities = bookmarkJpaRepository.findAllByUserId(userId, pageable)
-
-        return bookmarkEntities.map { it.toDomain() }.toList()
+    override fun findAllBookmarks(userId: Long, pageable: Pageable): Page<Bookmark> {
+        val bookmarkPage = bookmarkJpaRepository.findAllByUserId(userId, pageable).map { it.toDomain() }
+        return bookmarkPage
     }
 }
 

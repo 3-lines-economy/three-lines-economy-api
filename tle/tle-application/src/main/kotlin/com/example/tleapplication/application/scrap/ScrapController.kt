@@ -139,13 +139,11 @@ class ScrapController(
         @Parameter(name = "page", description = "페이지 번호", required = true)
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<ScrapListResponse> {
-        val scraps = scrapService.getAllScraps(authInfo.userId, page)
-        val scrapResponseList = scraps.map { ScrapResponse.from(it) }
-
+        val scrapPage = scrapService.getAllScraps(authInfo.userId, page)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = ScrapListResponse(scrapResponseList)
+            body = ScrapListResponse.from(scrapPage)
         )
     }
 }

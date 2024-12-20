@@ -2,11 +2,11 @@ package com.example.tleapplication.domain.user
 
 data class User(
     val id: Long,
-    var nickName: String,
+    val email: String,
+    var nickname: String,
     var profileImage: String,
     var role: UserRoleEnum,
     var kakaoAccessToken: String?,
-    var email: String? = null,
     var refreshToken: String? = null
 ) {
     fun updateRefreshToken(refreshToken: String) {
