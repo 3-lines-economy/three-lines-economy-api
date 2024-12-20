@@ -7,6 +7,7 @@ import com.example.tleapplication.domain.user.UserService
 import com.example.tleapplication.support.exception.bookmark.BookmarkAlreadyExistsException
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
 import com.example.tleapplication.support.exception.user.UserNotFoundException
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -36,7 +37,7 @@ class BookmarkService(
         bookmarkRepository.delete(id)
     }
 
-    fun getAllBookmarks(userId: Long, page: Int): List<Bookmark> {
+    fun getAllBookmarks(userId: Long, page: Int): Page<Bookmark> {
         val pageable = PageRequest.of(page - 1, NewsService.PAGE_SIZE)
 
         return bookmarkRepository.findAllBookmarks(userId, pageable)

@@ -101,13 +101,11 @@ class BookmarkController(
         @Parameter(name = "page", description = "페이지 번호", required = true)
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<BookmarkListResponse> {
-        val bookmarks = bookmarkService.getAllBookmarks(authInfo.userId, page)
-        val bookmarkResponseList = bookmarks.map { BookmarkResponse.from(it) }
-
+        val bookmarkPage = bookmarkService.getAllBookmarks(authInfo.userId, page)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = BookmarkListResponse(bookmarkResponseList)
+            body = BookmarkListResponse.from(bookmarkPage)
         )
     }
 }
