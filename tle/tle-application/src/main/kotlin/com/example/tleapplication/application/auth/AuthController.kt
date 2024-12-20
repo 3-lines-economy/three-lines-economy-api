@@ -1,7 +1,7 @@
 package com.example.tleapplication.application.auth
 
 import com.example.tleapplication.domain.auth.AuthService
-import com.example.tleapplication.domain.auth.UserToken
+import com.example.tleapplication.domain.auth.SignInInfo
 import com.example.tleapplication.support.logging.TraceIdResolver
 import com.example.tleapplication.support.response.TleApiResponse
 import com.example.tleapplication.support.security.Auth
@@ -35,12 +35,12 @@ class AuthController(
     )
     @PostMapping("/sign-in")
     @ResponseStatus(HttpStatus.OK)
-    fun signIn(@Valid @RequestBody authRequest: AuthRequest): TleApiResponse<UserToken> {
-        val userToken = authService.signIn(authRequest.code)
+    fun signIn(@Valid @RequestBody authRequest: AuthRequest): TleApiResponse<SignInInfo> {
+        val signInInfo = authService.signIn(authRequest.code)
         return TleApiResponse.success(
             traceId = traceIdResolver.getTraceId(),
             status = HttpStatus.OK,
-            body = userToken
+            body = signInInfo
         )
     }
 

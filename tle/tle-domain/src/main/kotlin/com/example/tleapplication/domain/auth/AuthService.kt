@@ -15,7 +15,7 @@ class AuthService(
     private val tokenIssuer: TokenIssuer
 ) {
     @Transactional
-    fun signIn(code: String): UserToken {
+    fun signIn(code: String): SignInInfo {
         val kakaoAccessToken = kakaoService.getAccessToken(code)
         val userInfo = kakaoService.getUserInfo(kakaoAccessToken)
 
@@ -35,7 +35,7 @@ class AuthService(
         user.updateRefreshToken(userToken.refreshToken)
         userService.saveUser(user)
 
-        return userToken
+        return SignInInfo.of(userToken, user)
     }
 
     @Transactional
