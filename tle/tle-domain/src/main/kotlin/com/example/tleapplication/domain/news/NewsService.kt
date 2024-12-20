@@ -1,6 +1,7 @@
 package com.example.tleapplication.domain.news
 
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -28,30 +29,26 @@ class NewsService(
         return findNewsById(id) ?: throw NewsNotFoundException()
     }
 
-    fun getNewsByCategory(category: Category?, page: Int): List<News> {
+    fun getNewsByCategory(category: Category, page: Int): Page<News> {
         val pageable = PageRequest.of(page - 1, PAGE_SIZE)
 
-        return if (category != null) {
-            newsRepository.findNewsByCategory(category, pageable)
-        } else {
-            newsRepository.findAllNews(pageable)
-        }
+        return newsRepository.findNewsByCategory(category, pageable)
     }
 
-    fun getNewsByDate(date: LocalDate?, page: Int): List<News> {
+    fun getNewsByDate(date: LocalDate?, page: Int): Page<News> {
         val pageable = PageRequest.of(page - 1, PAGE_SIZE)
         val targetDate = date ?: LocalDate.now()
 
         return newsRepository.findNewsByDate(targetDate, pageable)
     }
 
-    fun getAllNews(page: Int): List<News> {
+    fun getAllNews(page: Int): Page<News> {
         val pageable = PageRequest.of(page - 1, PAGE_SIZE)
 
         return newsRepository.findAllNews(pageable)
     }
 
-    fun searchNewsByKeyword(keyword: String, page: Int): List<News> {
+    fun searchNewsByKeyword(keyword: String, page: Int): Page<News> {
         val pageable = PageRequest.of(page - 1, PAGE_SIZE)
         return newsRepository.searchNewsByKeyword(keyword, pageable)
     }
