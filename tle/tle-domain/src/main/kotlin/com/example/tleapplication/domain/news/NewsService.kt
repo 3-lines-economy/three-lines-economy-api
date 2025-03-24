@@ -1,6 +1,7 @@
 package com.example.tleapplication.domain.news
 
 import com.example.tleapplication.support.exception.news.NewsNotFoundException
+import org.springframework.cglib.core.Local
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -27,6 +28,13 @@ class NewsService(
 
     fun getNews(id: Long): News {
         return findNewsById(id) ?: throw NewsNotFoundException()
+    }
+
+    fun getNewsByConditions(category: Category, date: LocalDate?, page: Int): Page<News> {
+        val pageable = PageRequest.of(page - 1, PAGE_SIZE)
+        val targetDate = date ?: LocalDate.now()
+
+        return newsRepository.findNewsByConditions(category, targetDate, pageable)
     }
 
     fun getNewsByCategory(category: Category, page: Int): Page<News> {

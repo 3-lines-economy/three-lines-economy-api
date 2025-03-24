@@ -95,6 +95,40 @@ class NewsController(
     }
 
     @Operation(
+        summary = "조건 기준 뉴스 전체 조회",
+        description = "조건 기준 뉴스 전체 조회 API",
+        responses = [
+            ApiResponse(responseCode = "200", description = "뉴스 조회 성공"),
+            ApiResponse(responseCode = "500", description = "Internal Server Error", content = arrayOf(
+                Content(schema = Schema(hidden = true))
+            )),
+        ],
+    )
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    fun getNewsByConditions(
+        @Parameter(name = "category", description = "카테고리", required = true)
+        @RequestParam(required = true) category: Category,
+        @Parameter(name = "date", description = "날짜(yyyy.MM.dd)", required = false)
+        @RequestParam(required = false) date: String?,
+        @Parameter(name = "page", description = "페이지 번호", required = true)
+        @RequestParam(defaultValue = "1") page: Int
+    ): TleApiResponse<NewsListResponse> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
+        val formattedDate = date?.let {
+            LocalDate.parse(it, formatter)
+        }
+
+        val newsPage = newsService.getNewsByConditions(category, formattedDate, page)
+
+        return TleApiResponse.success(
+            traceId = traceIdResolver.getTraceId(),
+            status = HttpStatus.OK,
+            body = NewsListResponse.from(newsPage)
+        )
+    }
+
+    @Operation(
         summary = "카테고리 기준 뉴스 조회",
         description = "카테고리 기준 뉴스 조회 API",
         responses = [
@@ -109,6 +143,8 @@ class NewsController(
     fun getNewsByCategory(
         @Parameter(name = "category", description = "카테고리", required = true)
         @RequestParam(required = true) category: Category,
+        @Parameter(name = "date", description = "날짜(yyyy.MM.dd)", required = false)
+        @RequestParam(required = false) date: String?,
         @Parameter(name = "page", description = "페이지 번호", required = true)
         @RequestParam(defaultValue = "1") page: Int
     ): TleApiResponse<NewsListResponse> {

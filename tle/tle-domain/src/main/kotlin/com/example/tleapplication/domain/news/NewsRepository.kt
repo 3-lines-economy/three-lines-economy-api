@@ -10,6 +10,7 @@ interface NewsRepository {
     fun save(news: News)
     fun saveAll(bulkNews: List<News>)
     fun findNewsByCategory(category: Category, pageable: Pageable): Page<News>
+    fun findNewsByConditions(category: Category, date: LocalDate, pageable: Pageable): Page<News>
     fun findAllNews(pageable: Pageable): Page<News>
     fun findNewsByDate(date: LocalDate, pageable: Pageable): Page<News>
     fun searchNewsByKeyword(keyword: String, pageable: Pageable): Page<News>

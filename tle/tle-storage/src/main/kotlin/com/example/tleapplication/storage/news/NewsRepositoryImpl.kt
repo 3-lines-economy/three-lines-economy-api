@@ -27,6 +27,10 @@ class NewsRepositoryImpl(
         newsJpaRepository.saveAll(bulkNewsEntity)
     }
 
+    override fun findNewsByConditions(category: Category, date: LocalDate, pageable: Pageable): Page<News> {
+        return newsJpaRepository.findByConditions(category, date, pageable).map { it.toDomain() }
+    }
+
     override fun findNewsByCategory(category: Category, pageable: Pageable): Page<News> {
         return newsJpaRepository.findByCategory(category, pageable).map { it.toDomain() }
     }
@@ -61,4 +65,6 @@ interface NewsJpaRepository: JpaRepository<NewsEntity, Long> {
            OR LOWER(n.how) LIKE LOWER(CONCAT('%', :keyword, '%'))
     """)
     fun searchByKeyword(@Param("keyword") keyword: String, pageable: Pageable): Page<NewsEntity>
+    @Query("SELECT n FROM NewsEntity n WHERE DATE(n.publishedAt) = :publishedAt AND n.category = :category")
+    fun findByConditions(category: Category?, publishedAt: LocalDate, pageable: Pageable): Page<NewsEntity>
 }
